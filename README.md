@@ -1,20 +1,34 @@
-# 🎨 slide-generator v4 — Release Notes
+# 🎨 slide-generator
 
 **AI駆動のプレゼンスライド自動生成ツール**
 Markdown を書くだけで、OpenAI GPT-image-2 / Gemini 3.1 Flash が高品質な 16:9 2K スライドを並列生成。
 PPTX / PDF まで一気通貫で出力。
 
+![cover](docs/screenshots/cover.png)
+
+> **この README 自体、slide-generator で生成したスライドを埋め込んでいます。**
+> 以下のスクリーンショットはすべて実出力例（TEKION Group サンプルブランド）。
+
 ---
 
 ## ⚡ TL;DR
 
-**v4 で、スライド生成ツールが完成形に到達。**
+**Markdown → 高品質スライドを3分で。配布可能な品質で、完全自動。**
 
 - **OpenAI GPT-image-2 デフォルト対応**（日本語テキスト精度が圧倒的）
 - **Visual / Balanced の2スタイル**（ピッチデッキ風 ↔ 営業資料風をフラグで切替）
 - **スライド毎に個別スタイル指定可**（混在OK）
 - **ロゴ色保全**（ピクセル忠実度の徹底）
 - **Gemini も引き続き併用可**（大量生成・無料枠・実在ブランド描画はGemini）
+- **Claude Code Skill** として動作。自然言語で依頼するだけ
+
+### 解決する課題
+
+![solution](docs/screenshots/solution.png)
+
+### パイプライン
+
+![pipeline](docs/screenshots/pipeline.png)
 
 ---
 
@@ -46,6 +60,8 @@ PPTX / PDF まで一気通貫で出力。
 
 ### 1. OpenAI GPT-image-2 対応（Provider 抽象レイヤ）
 
+![providers](docs/screenshots/providers.png)
+
 **Before (v3-flash)**: Gemini 3.1 Flash Image only
 **After (v4)**: OpenAI GPT-image-2 / Gemini 3.1 Flash の両対応（**デフォルト: OpenAI**）
 
@@ -63,6 +79,8 @@ python3 generate_slides_parallel.py --provider gemini ...
 - `providers/registry.py` — プロバイダ解決
 
 ### 2. 🎨 Visual / Balanced の 2 スタイル
+
+![styles](docs/screenshots/styles.png)
 
 **Before (v3-flash)**: 情報密度高めの1スタイル固定
 **After (v4)**: 用途別に2スタイル + スライド個別オーバーライド
@@ -263,6 +281,8 @@ GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ## 🎨 自社ブランドに合わせる
 
+![branding](docs/screenshots/branding.png)
+
 「slide-generator を自社のプレゼン資料ツールとして使いたい」場合の3ステップ。
 
 ### Step 1: ロゴを差し替える
@@ -340,7 +360,14 @@ python3 export_to_pptx.py --input-dir ${SESSION}/images --output ~/Desktop/outpu
 
 ---
 
-## 🏆 v4 を他ツールと比較すると
+## 📐 品質
+
+![quality](docs/screenshots/quality.png)
+
+2K (2752×1536) ネイティブ、日本語テキスト100%精度、ロゴのピクセル忠実度。
+営業資料としてそのまま配布可能なレベル。
+
+## 🏆 他ツールとの比較
 
 | 軸 | Canva / Gamma | Google Slides + AI | **slide-generator v4** |
 |:---:|:---:|:---:|:---:|

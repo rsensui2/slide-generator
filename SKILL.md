@@ -1,9 +1,9 @@
 ---
-name: nanobanana-slide-generator-v4
-description: "プレゼンスライド生成（OpenAI GPT-image-2 デフォルト / Gemini 3.1 Flash 両対応）。「スライドを作って」「プレゼン資料」で発動。Markdown/テキスト→デザインガイドライン→並列画像生成→PPTX/PDF。日本語テキスト精度重視の営業資料・提案書はOpenAI、大量生成や実在ブランド/人物はGemini。Visual/Balanced 2スタイル、ロゴ/参考画像、グラウンディング、Thinking制御対応。"
+name: tekion-slide-generator-v4
+description: "TEKION Slide Generator v4 — プレゼンスライド生成（OpenAI GPT-image-2 デフォルト / Gemini 3.1 Flash 両対応）。「スライドを作って」「プレゼン資料」で発動。Markdown/テキスト→デザインガイドライン→並列画像生成→PPTX/PDF。日本語テキスト精度重視の営業資料・提案書はOpenAI、大量生成や実在ブランド/人物はGemini。Visual/Balanced 2スタイル、ロゴ/参考画像、グラウンディング、Thinking制御対応。"
 ---
 
-# nano-banana Slide Generator v4
+# TEKION Slide Generator v4
 
 ## 実行モード
 

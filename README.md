@@ -1,13 +1,13 @@
-# 🎨 slide-generator
+# 🎨 TEKION Slide Generator v4
 
-**AI駆動のプレゼンスライド自動生成ツール**
+**AI駆動のプレゼンスライド自動生成ツール** by [TEKION Group](https://tekion.jp/)
 Markdown を書くだけで、OpenAI GPT-image-2 / Gemini 3.1 Flash が高品質な 16:9 2K スライドを並列生成。
 PPTX / PDF まで一気通貫で出力。
 
 ![cover](docs/screenshots/cover.png)
 
-> **この README 自体、slide-generator で生成したスライドを埋め込んでいます。**
-> 以下のスクリーンショットはすべて実出力例（TEKION Group サンプルブランド）。
+> **この README 自体、TEKION Slide Generator v4 で生成したスライドを埋め込んでいます。**
+> 以下のスクリーンショットはすべて実出力例。
 
 ---
 
@@ -204,11 +204,11 @@ compare/
 
 ```bash
 # 1. リポジトリ取得
-git clone https://github.com/rsensui2/slide-generator.git
-cd slide-generator
+git clone https://github.com/rsensui2/tekion-slide-generator.git
+cd tekion-slide-generator
 
 # 2. Claude Code Skill としてインストール
-cp -r . ~/.claude/skills/slide-generator/
+cp -r . ~/.claude/skills/tekion-slide-generator-v4/
 
 # 3. API キー設定（下記「環境変数」参照）
 echo "OPENAI_API_KEY=sk-..." >> ~/.claude/.env.local
@@ -288,7 +288,7 @@ GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ### Step 1: ロゴを差し替える
 
 ```bash
-cp ~/Downloads/my-company-logo.png ~/.claude/skills/slide-generator/assets/logo.png
+cp ~/Downloads/my-company-logo.png ~/.claude/skills/tekion-slide-generator-v4/assets/logo.png
 ```
 
 要件:

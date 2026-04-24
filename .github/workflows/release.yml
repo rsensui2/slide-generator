@@ -41,7 +41,7 @@ jobs:
           mv slide-generator slide-generator-src
           ln -s slide-generator-src slide-generator
           # Create zip with .skill extension
-          zip -r slide-generator-src/dist/slide-generator.skill slide-generator \
+          zip -r slide-generator-src/dist/tekion-slide-generator-v4.skill slide-generator \
             -x "slide-generator/.git/*" \
             -x "slide-generator/.github/*" \
             -x "slide-generator/dist/*" \
@@ -67,11 +67,11 @@ jobs:
 
           \`\`\`bash
           # Option A: .skill を直接展開
-          curl -L https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.VERSION }}/slide-generator.skill \\
-            -o ~/.claude/skills/slide-generator.skill
+          curl -L https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.VERSION }}/tekion-slide-generator-v4.skill \\
+            -o ~/.claude/skills/tekion-slide-generator-v4.skill
 
           # Option B: git clone
-          git clone https://github.com/${{ github.repository }}.git ~/.claude/skills/slide-generator
+          git clone https://github.com/${{ github.repository }}.git ~/.claude/skills/tekion-slide-generator-v4
           \`\`\`
 
           ### 詳細
@@ -88,6 +88,6 @@ jobs:
           name: ${{ steps.version.outputs.VERSION }}
           body_path: RELEASE_NOTES.md
           files: |
-            dist/slide-generator.skill
+            dist/tekion-slide-generator-v4.skill
           draft: false
           prerelease: false

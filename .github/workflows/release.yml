@@ -1,0 +1,93 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate SKILL.md frontmatter
+        run: |
+          python3 -c "
+          import re, sys, pathlib
+          content = pathlib.Path('SKILL.md').read_text()
+          match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+          assert match, 'SKILL.md must start with YAML frontmatter'
+          frontmatter = match.group(1)
+          assert 'name:' in frontmatter, 'name field required'
+          assert 'description:' in frontmatter, 'description field required'
+          print('✅ SKILL.md valid')
+          "
+
+      - name: Build .skill package
+        run: |
+          mkdir -p dist
+          cd ..
+          # Skill directory name should match
+          mv slide-generator slide-generator-src
+          ln -s slide-generator-src slide-generator
+          # Create zip with .skill extension
+          zip -r slide-generator-src/dist/slide-generator.skill slide-generator \
+            -x "slide-generator/.git/*" \
+            -x "slide-generator/.github/*" \
+            -x "slide-generator/dist/*" \
+            -x "slide-generator/**/__pycache__/*" \
+            -x "slide-generator/**/*.pyc" \
+            -x "slide-generator/**/.DS_Store"
+          cd slide-generator-src
+          ls -la dist/
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          cat > RELEASE_NOTES.md <<EOF
+          ## slide-generator ${{ steps.version.outputs.VERSION }}
+
+          AI-driven presentation slide generator.
+
+          ### インストール
+
+          \`\`\`bash
+          # Option A: .skill を直接展開
+          curl -L https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.VERSION }}/slide-generator.skill \\
+            -o ~/.claude/skills/slide-generator.skill
+
+          # Option B: git clone
+          git clone https://github.com/${{ github.repository }}.git ~/.claude/skills/slide-generator
+          \`\`\`
+
+          ### 詳細
+
+          - [README](https://github.com/${{ github.repository }}/blob/main/README.md)
+          - [Installation Guide](https://github.com/${{ github.repository }}/blob/main/docs/installation.md)
+          - [Branding Guide](https://github.com/${{ github.repository }}/blob/main/docs/branding.md)
+          EOF
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: ${{ steps.version.outputs.VERSION }}
+          body_path: RELEASE_NOTES.md
+          files: |
+            dist/slide-generator.skill
+          draft: false
+          prerelease: false

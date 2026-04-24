@@ -185,16 +185,132 @@ compare/
 ## 🚀 クイックスタート
 
 ```bash
-# 1. API キー設定
+# 1. リポジトリ取得
+git clone https://github.com/rsensui2/slide-generator.git
+cd slide-generator
+
+# 2. Claude Code Skill としてインストール
+cp -r . ~/.claude/skills/slide-generator/
+
+# 3. API キー設定（下記「環境変数」参照）
 echo "OPENAI_API_KEY=sk-..." >> ~/.claude/.env.local
 echo "GEMINI_API_KEY=AIza..." >> ~/.claude/.env.local   # optional
 
-# 2. 依存インストール
+# 4. 依存インストール
 pip install Pillow python-pptx requests Jinja2
 
-# 3. スキル起動（Claude Code）
+# 5. Claude Code を推奨モードで起動
+claude --dangerously-skip-permissions
+
+# 6. スキル発動
 「スライドを作って」
-# → Markdown指定 → スタイル選択 → 自動生成
+# → Markdown指定 → スタイル選択 → 自動生成（3-5分）
+```
+
+### ⚡ Claude Code 起動モードの推奨
+
+slide-generator は **大量の並列 Bash / ファイル操作** を伴うため、
+通常の permission mode だと許可ダイアログが数十回発生し、生成フローが途切れます。
+
+**推奨: Bypass Permissions モード**
+
+```bash
+# 起動時フラグで指定
+claude --dangerously-skip-permissions
+
+# または .claude/settings.json で
+{
+  "permissionMode": "bypassPermissions"
+}
+```
+
+> **注意**: このモードはスキル動作中のみ推奨。信頼できないコード実行があるプロジェクトでは通常モードに戻してください。
+
+---
+
+## 🔑 環境変数・設定ファイル
+
+### `.env.local` の配置
+
+Claude Code は `~/.claude/.env.local` を自動 source します。プロジェクト個別設定を優先させる場合はプロジェクトルートに `.env.local` を置きます（こちらが優先）。
+
+```bash
+# ~/.claude/.env.local
+OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxx
+GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+### APIキーの取得
+
+| Provider | 取得先 | 備考 |
+|----------|-------|------|
+| OpenAI（推奨） | https://platform.openai.com/api-keys | gpt-image-2 は Tier 1 以上推奨 |
+| Google Gemini | https://aistudio.google.com/apikey | 無料枠あり |
+
+### 優先順位（ロード順）
+
+1. プロジェクトルート `/.env.local`（あれば優先）
+2. ユーザーホーム `~/.claude/.env.local`
+3. 環境変数 `OPENAI_API_KEY` / `GEMINI_API_KEY`（いずれもなければここ）
+
+### セキュリティ
+
+- `.env.local` は **絶対に git に commit しない**（同梱の `.gitignore` で除外済）
+- APIキーは **Bearer トークン** として扱われます。定期ローテーション推奨
+- チーム共有する場合は GitHub Codespaces Secrets や 1Password CLI 等を推奨
+
+---
+
+## 🎨 自社ブランドに合わせる
+
+「slide-generator を自社のプレゼン資料ツールとして使いたい」場合の3ステップ。
+
+### Step 1: ロゴを差し替える
+
+```bash
+cp ~/Downloads/my-company-logo.png ~/.claude/skills/slide-generator/assets/logo.png
+```
+
+要件:
+- PNG / JPEG / WebP いずれかの形式
+- 透過 PNG 推奨（白背景にも馴染む）
+- 幅 1000px 以上推奨
+- アスペクト比は横長推奨（スライド右下に小さく配置されるため）
+
+### Step 2: デザインガイドラインを作成
+
+`references/presets/example-preset.md` を自社用にコピー＆カスタマイズ:
+
+```bash
+cp references/presets/example-preset.md references/presets/my-company.md
+```
+
+カスタマイズすべき項目:
+- **配色パレット**: Primary / Accent / Success / Warning / Error
+- **フォント**: 見出し書体 / 本文書体
+- **レイアウトパターン**: Pattern A-K の使い方
+- **トーン**: プロフェッショナル / カジュアル / エネルギッシュ 等
+- **禁止事項**: 使ってほしくない色・表現
+
+より詳しくは **[docs/branding.md](docs/branding.md)** 参照。
+
+### Step 3: セッション毎にプリセット適用
+
+```bash
+# 新規セッション作成時に design_guidelines.md として配置
+cp references/presets/my-company.md ${SESSION_DIR}/design_guidelines.md
+```
+
+以降、そのセッションで生成される全スライドが自社ブランドに沿って出力されます。
+
+### プロンプトテンプレのカスタマイズ（上級）
+
+Jinja2テンプレート (`templates/*.j2`) を fork して自社向けバージョンを作成:
+
+```bash
+cp templates/prompt_template_balanced.j2 templates/prompt_template_mycompany.j2
+# mood / reference_design / visual_effects 等を追記
+python3 scripts/generate_prompts_from_json.py --template-path templates/prompt_template_mycompany.j2 ...
 ```
 
 ### 典型的なコマンド（手動）

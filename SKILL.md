@@ -299,12 +299,16 @@ ${PYTHON} ${SKILL_DIR}/scripts/generate_slides_parallel.py \
   --api-key "${OPENAI_API_KEY}" \
   --max-parallel 10 --max-retries 3 \
   --image-size 2K \
-  --quality high \
   --logo ${SKILL_DIR}/assets/logo.png \
   --reference-image-map ${SESSION_DIR}/reference_image_map.json
 ```
 
 `--provider openai` は省略可能（デフォルト）。並列数はTier 3想定で10、Tier 5なら20+まで増やせます。
+
+**画質**: デフォルトは `medium`（速度・コスト・見栄えのバランス重視）。最高画質が必要なときのみ `--quality high` を明示する。
+- `medium`（デフォルト）: 通常の営業資料・提案書・大量生成。
+- `high`: 表紙・登壇用ピッチ・印刷物・最終納品など、最高画質が必要な場面のみ。
+- ユーザーが「ハイクオリティで」「最高画質で」「印刷用に」「登壇用に」と明言した場合は `--quality high` を付与する。
 
 ### Gemini（サブ・大量生成向け）
 
@@ -337,7 +341,7 @@ ${PYTHON} ${SKILL_DIR}/scripts/generate_slides_parallel.py \
 | `--reference-image-map` | なし | JSONファイルパス | 両方 |
 | `--thinking-level` | High | minimal, High | Geminiのみ |
 | `--grounding-map` | なし | JSONファイルパス | Geminiのみ |
-| `--quality` | high | auto, low, medium, high | OpenAIのみ |
+| `--quality` | medium | auto, low, medium, high | OpenAIのみ（最高画質要求時のみ `high`） |
 | `--background` | auto | auto, transparent, opaque | OpenAIのみ |
 
 ### プロバイダ比較（実測）

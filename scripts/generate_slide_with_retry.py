@@ -363,8 +363,8 @@ def main():
     parser.add_argument('--grounding', action='store_true',
                         help='[Gemini] Google画像検索グラウンディングを有効化')
     # OpenAI固有
-    parser.add_argument('--quality', default='high', choices=['auto', 'low', 'medium', 'high'],
-                        help='[OpenAI] 画質（デフォルト: high）')
+    parser.add_argument('--quality', default='medium', choices=['auto', 'low', 'medium', 'high'],
+                        help='[OpenAI] 画質（デフォルト: medium。最高画質が必要なときのみ high を指定）')
     parser.add_argument('--input-fidelity', default='high', choices=['low', 'high'],
                         help='[OpenAI] 参考画像への忠実度（デフォルト: high）')
     parser.add_argument('--background', default='auto', choices=['auto', 'transparent', 'opaque'],

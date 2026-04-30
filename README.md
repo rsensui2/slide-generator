@@ -176,7 +176,7 @@ compare/
 ### 制御
 - ✅ `--style {visual|balanced}` + `_style` 個別オーバーライド
 - ✅ `--image-size {512px|1K|2K|4K}` 両プロバイダ統一ラベル
-- ✅ `--quality {auto|low|medium|high}` (OpenAI)
+- ✅ `--quality {auto|low|medium|high}` (OpenAI、デフォルト: `medium`。最高画質要求時のみ `high`)
 - ✅ `--thinking-level {minimal|High}` (Gemini)
 - ✅ `--grounding-map` スライドごとの Google 画像検索ON/OFF (Gemini)
 - ✅ `--background {auto|transparent|opaque}` (OpenAI)
@@ -342,7 +342,7 @@ cp path/to/preset.md ${SESSION}/design_guidelines.md
 # slides_plan.json を手動 or SubAgent で作成
 # ...
 python3 generate_prompts_from_json.py --session-dir ${SESSION} --style balanced
-python3 generate_slides_parallel.py --prompts-dir ${SESSION}/prompts --output-dir ${SESSION}/images --api-key "${OPENAI_API_KEY}" --max-parallel 10 --quality high --logo ./assets/logo.png
+python3 generate_slides_parallel.py --prompts-dir ${SESSION}/prompts --output-dir ${SESSION}/images --api-key "${OPENAI_API_KEY}" --max-parallel 10 --logo ./assets/logo.png  # 画質はデフォルト medium。最高画質が必要なときは末尾に --quality high を追加
 python3 export_to_pptx.py --input-dir ${SESSION}/images --output ~/Desktop/output.pptx
 ```
 

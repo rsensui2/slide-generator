@@ -42,8 +42,8 @@ def parse_args():
     # 共通
     parser.add_argument('--reference-image-map', help='Path to reference image map JSON (slide_name_pattern → image_path)')
     # OpenAI固有
-    parser.add_argument('--quality', default='high', choices=['auto', 'low', 'medium', 'high'],
-                        help='[OpenAI] 画質（デフォルト: high）')
+    parser.add_argument('--quality', default='medium', choices=['auto', 'low', 'medium', 'high'],
+                        help='[OpenAI] 画質（デフォルト: medium。最高画質が必要なときのみ high を指定）')
     parser.add_argument('--input-fidelity', default='high', choices=['low', 'high'],
                         help='[OpenAI] 参考画像への忠実度（デフォルト: high）')
     parser.add_argument('--background', default='auto', choices=['auto', 'transparent', 'opaque'],
@@ -100,7 +100,7 @@ def find_reference_image(slide_base: str, ref_map: dict) -> str:
 def generate_single_slide(prompt_file_path, output_path, api_key, max_retries,
                           script_path, logo_path, image_size, thinking_level,
                           grounding, reference_image_path=None,
-                          provider='gemini', quality='high', input_fidelity='high',
+                          provider='gemini', quality='medium', input_fidelity='high',
                           background='auto'):
     """
     単一スライドを生成（generate_slide_with_retry.pyを呼び出し）

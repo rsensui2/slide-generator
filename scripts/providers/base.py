@@ -34,7 +34,7 @@ class ImageRequest:
     grounding: bool = False
 
     # OpenAI固有
-    quality: str = "high"          # auto | low | medium | high
+    quality: str = "medium"        # auto | low | medium | high
     input_fidelity: str = "high"   # low | high
     background: str = "auto"       # auto | transparent | opaque
 

@@ -108,7 +108,7 @@ def export_to_pptx(input_dir: str, output_path: str, pattern: str = "*.png") -> 
         slide_height = prs.slide_height
         slide_aspect_ratio = slide_width / slide_height
 
-        # 各画像をスライドとして追加
+        # 各画像をスライドとして追加（PNG 自体にフッターが焼き込まれているため、そのまま埋め込む）
         for img_file in image_files:
             try:
                 # 画像を開いてサイズを取得

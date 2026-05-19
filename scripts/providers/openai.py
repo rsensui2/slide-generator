@@ -117,6 +117,12 @@ class OpenAIImageProvider(ImageProvider):
                     )
 
                 image_bytes = result["image_bytes"]
+
+                import sys as _sys, os as _os
+                _sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+                from footer_utils import apply_footer_to_bytes
+                image_bytes = apply_footer_to_bytes(image_bytes, output_format="PNG")
+
                 with open(request.output_path, "wb") as f:
                     f.write(image_bytes)
 

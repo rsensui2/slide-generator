@@ -94,7 +94,7 @@ def export_to_pdf(input_dir: str, output_path: str, pattern: str = "*.png") -> b
 
         print(f"📄 {len(image_files)}枚の画像を検出しました", file=sys.stderr)
 
-        # 画像を開く
+        # 画像を開く（PNG 自体にフッターが焼き込み済み）
         images = []
         for img_file in image_files:
             try:

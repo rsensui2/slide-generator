@@ -221,6 +221,9 @@ def generate_slide_with_retry(
             if output_dir:
                 os.makedirs(output_dir, exist_ok=True)
 
+            from footer_utils import apply_footer_to_bytes
+            image_data = apply_footer_to_bytes(image_data, output_format="PNG")
+
             with open(output_path, 'wb') as f:
                 f.write(image_data)
 
